@@ -1,0 +1,14 @@
+{
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+        "dma.h": "c",
+        "usart.h": "c",
+        "picotk.h": "c",
+        "glx_impl.h": "c",
+        "assert.h": "c",
+        "tx_api.h": "c",
+        "main.h": "c",
+        "thread": "c",
+        "stm32h7xx_hal_tim.h": "c"
+    }
+}
