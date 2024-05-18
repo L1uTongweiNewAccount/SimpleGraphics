@@ -10,5 +10,12 @@
         "main.h": "c",
         "thread": "c",
         "stm32h7xx_hal_tim.h": "c"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/l1utongwei/SimpleGraphics/build/target",
+            "binaryPath": "/home/l1utongwei/SimpleGraphics/build/target/SimpleGraphics.elf",
+            "binaryArgs": []
+        }
+    ]
 }
