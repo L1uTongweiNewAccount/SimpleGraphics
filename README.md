@@ -19,7 +19,7 @@ Please view in [Simple Grahpics Wiki](https://github.com/L1uTongweiNewAccount/Si
 
 ### Authors, Copying and Contributing
 
-Author: L1uTongwei<1347277058@qq.com>
+Author: L1uTongwei\<1347277058@qq.com\>
 
 I recommand you to reserve my name when your copy/modify this project.
 
