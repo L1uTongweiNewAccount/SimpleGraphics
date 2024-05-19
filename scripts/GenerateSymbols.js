@@ -92,7 +92,7 @@ for(var i = 0; i < ctags.length; i++){
     if(ctags[i].kind == "function"){
         //#define FunctionName ((ReturnType(*)(Arguments))(void*)address)
         var address = getAddress(ctags[i]);
-        if(address == null || /weak/.test(ctags[i].pattern)){
+        if(address == null || /weak/.test(ctags[i].pattern) || ctags[i].name == "main"){
             //console.warn("Warning: Cannot found symbol " + ctags[i].name + " in map file.");
             continue;
         }

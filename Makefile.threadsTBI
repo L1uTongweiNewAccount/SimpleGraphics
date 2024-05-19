@@ -1,0 +1,12 @@
+# threadsTBI Makefile
+
+BUILD_DIR = build
+SRC = UserTask # Edit here with your own UserTask file name
+
+all: $(SRC).c
+	-@mkdir $(BUILD_DIR)
+	-@mkdir $(BUILD_DIR)/objects
+	-@mkdir $(BUILD_DIR)/target
+	arm-none-eabi-gcc $(SRC).c -ffunction-sections -o $(BUILD_DIR)/objects/$(SRC).o
+	arm-none-eabi-objcopy --output-format binary --only-section UserTask \
+		$(BUILD_DIR)/objects/$(SRC).o $(BUILD_DIR)/target/$(SRC).bin

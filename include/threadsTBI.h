@@ -13,3 +13,7 @@ static void UserTask(uint8_t* stack){
         yield();
     }
 }
+
+int main(){
+    return 0;
+}
