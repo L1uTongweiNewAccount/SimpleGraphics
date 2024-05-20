@@ -4,14 +4,17 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/home/l1utongwei/SimpleGraphics/Inc/**"
+                "/home/l1utongwei/SimpleGraphics/Inc/**",
+                "/usr/include/**",
+                "/usr/src/linux-headers-6.5.0-18-generic/**",
+                "/usr/src/linux-headers-6.5.0-18-generic/arch/ia64/include/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "compilerPath": "/usr/bin/gcc"
         }
     ],
     "version": 4

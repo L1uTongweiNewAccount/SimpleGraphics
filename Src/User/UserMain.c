@@ -56,6 +56,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     else{
         HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
         switch(USARTRecieveBuffer[0]){ // switch the type
+            case 0: // Card Info
+                HAL_UART_Transmit_DMA(&huart1, "SimpleGraphics v1.0", 20);
+                break;
             case 1: // switch the resolution (in fixed mode)
                 // NOTE: Expected size 2
                 if(USARTRecieveBuffer[1] > 7) break;
