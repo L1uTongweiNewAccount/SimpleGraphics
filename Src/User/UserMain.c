@@ -80,7 +80,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 );
                 break;
             case 4: // normal read memory
-                //NOTE: expected size > 7
+                //NOTE: expected size 7
                 HAL_DMA_Start(
                     &hdma_memtomem_dma1_stream3, 
                     *(uint32_t*)&USARTRecieveBuffer[1],
