@@ -54,7 +54,6 @@ void TIM3_IRQHandler(void) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     if(!IsPre) HAL_UART_Receive_DMA(&huart1, USARTRecieveBuffer, instructionSize);
     else{
-        HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
         switch(USARTRecieveBuffer[0]){ // switch the type
             case 0: // Card Info
                 HAL_UART_Transmit_DMA(&huart1, "SimpleGraphics v1.0", 20);
@@ -65,7 +64,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 setResolution(*resolutions[USARTRecieveBuffer[1]]);
                 break;
             case 2:{ // switch the resolution (customed)
-                //NOTE: Expected size 13
+                //NOTE: Expected size 7
                 Resolution *r = (Resolution*)&USARTRecieveBuffer[1];
                 setResolution(*r);
                 break;
@@ -120,18 +119,18 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 break;
             }
             case 7: // DMA2D Fill memory
-                //NOTE: expected size 16
+                //NOTE: expected size 15
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00030000UL | (1 << 9);
                 DMA2D->OCOLR = *(uint32_t*)&USARTRecieveBuffer[1];
                 DMA2D->OMAR = *(uint32_t*)&USARTRecieveBuffer[5];
                 DMA2D->OOR = *(uint32_t*)&USARTRecieveBuffer[9];
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[13]) << 16) | *(uint16_t*)&USARTRecieveBuffer[15];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[11]) << 16) | *(uint16_t*)&USARTRecieveBuffer[13];
                 DMA2D->CR |= DMA2D_CR_START; 
                 break;
             case 8: // DMA2D Copy memory
-                //NOTE: expected size 20
+                //NOTE: expected size 19
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00000000UL | (1 << 9);
                 DMA2D->FGMAR = *(uint32_t*)&USARTRecieveBuffer[1];
@@ -140,11 +139,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 DMA2D->OOR = *(uint32_t*)&USARTRecieveBuffer[13];
                 DMA2D->FGPFCCR = DMA2D_ARGB8888;
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[17]) << 16) | *(uint16_t*)&USARTRecieveBuffer[19];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[15]) << 16) | *(uint16_t*)&USARTRecieveBuffer[17];
                 DMA2D->CR |= DMA2D_CR_START;
                 break;
             case 9: // DMA2D Mix memory
-                //NOTE: expected size 28
+                //NOTE: expected size 27
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00020000UL | (1 << 9);
                 DMA2D->FGMAR = *(uint32_t*)&USARTRecieveBuffer[1];
@@ -156,7 +155,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 DMA2D->FGPFCCR = DMA2D_ARGB8888;
                 DMA2D->BGPFCCR = DMA2D_ARGB8888;
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[25]) << 16) | *(uint16_t*)&USARTRecieveBuffer[27];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[23]) << 16) | *(uint16_t*)&USARTRecieveBuffer[25];
                 DMA2D->CR |= DMA2D_CR_START;
                 break;
             case 10:{ //add a thread
@@ -179,7 +178,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 break;
             }
             case 11:{ //delete a thread
-                //NOTE: expected size 4
+                //NOTE: expected size 5
                 struct LinkedSheet* target = threadsRoot;
                 if(target == NULL) break;
                 if(target->id == *(uint32_t*)&USARTRecieveBuffer[1]){
@@ -200,7 +199,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 target->next = newNext;
                 break;
             }
-        }       
+        }
+        HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
     }
     IsPre = !IsPre;
 }
