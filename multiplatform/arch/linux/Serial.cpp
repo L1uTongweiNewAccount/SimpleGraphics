@@ -25,8 +25,8 @@ void HardwareSerial::begin(uint32_t baudrate){
             Opt.c_cflag &= ~CSTOPB;
             Opt.c_cflag &= ~CSIZE;
             Opt.c_cflag |= ~CS8;
-            cfsetispeed(&Opt, B115200);
-            cfsetospeed(&Opt, B115200);
+            cfsetispeed(&Opt, B9600);
+            cfsetospeed(&Opt, B9600);
             Opt.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
             Opt.c_oflag &= ~OPOST;
             Opt.c_lflag = 0;

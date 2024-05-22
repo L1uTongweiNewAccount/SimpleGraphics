@@ -1,6 +1,8 @@
 #pragma once
 #include <stdint.h>
 #include <string.h>
+#include "../Src/User/MemoryRegion.h"
+#include "../Src/User/Resolution.h"
 #if !defined SYSTEM
     #define SYSTEM none
 #endif
@@ -10,31 +12,19 @@
     #ifndef SimpleGraphics_Serial
         #define SimpleGraphics_Serial Serial
     #endif
-#elif SYSTEM == linux || SYSTEM == win
+#elif SYSTEM == linux || SYSTEM == win || SYSTEM == dos
     #include "arch/Serial.h"
 #elif SYSTEM == custom
 #else
-    #pragma message("Available system: avr linux win custom(define your own serial.cpp and driver code for your project)")
+    #pragma message("Available system: avr linux win dos custom(define your own serial.cpp and driver code for your project)")
     #pragma error("Please set the macro SYSTEM with your target's system.")
 #endif
 
 #define SimpleGraphics_SUCCESS 0
 #define SimpleGraphics_FAILURE 1
 
-typedef struct{
-    uint16_t height, width;
-    uint16_t HSync, VSync;
-    uint16_t HBack, VBack;
-}Resolution;
-
-extern const Resolution r480x272;
-extern const Resolution r640x480;
-extern const Resolution r800x480;
-extern const Resolution r800x600;
-extern const Resolution r1024x600;
-extern const Resolution r1024x768;
-extern const Resolution r1280x720;
-extern const Resolution r1920x1080;
+void __attribute__((weak)) setResolution(Resolution){};
+void __attribute__((weak)) setLTDCClock(Resolution){};
 
 struct SimpleGraphics{
     uint8_t(*init)(void);

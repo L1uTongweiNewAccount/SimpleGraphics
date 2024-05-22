@@ -2,9 +2,9 @@
 #include <stdint.h>
 #include <string.h>
 struct HardwareSerial{
-    #if SYSTEM == linux
+    #if SYSTEM == linux || SYSTEM == dos
         int fd = -1;
-    #else
+    #elif SYSTEM == win
         #include <windows.h>
         #include <WinSock2.h>
         HANDLE fd = (HANDLE)-1;

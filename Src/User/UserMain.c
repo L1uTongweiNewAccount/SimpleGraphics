@@ -58,11 +58,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
             case 0: // Card Info
                 HAL_UART_Transmit_DMA(&huart1, "SimpleGraphics v1.0", 20);
                 break;
-            case 1: // switch the resolution (in fixed mode)
-                // NOTE: Expected size 2
-                if(USARTRecieveBuffer[1] > 7) break;
-                setResolution(*resolutions[USARTRecieveBuffer[1]]);
-                break;
+            // case 1: // switch the resolution (in fixed mode)
+            //     // NOTE: Expected size 2
+            //     if(USARTRecieveBuffer[1] > 7) break;
+            //     setResolution(*resolutions[USARTRecieveBuffer[1]]);
+            //     break;
             case 2:{ // switch the resolution (customed)
                 //NOTE: Expected size 7
                 Resolution *r = (Resolution*)&USARTRecieveBuffer[1];

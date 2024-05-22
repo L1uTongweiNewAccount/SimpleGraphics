@@ -1,4 +1,5 @@
 #include "../Serial.h"
+
 #include <stdlib.h>
 #include <windows.h>
 
@@ -8,7 +9,7 @@ HardwareSerial::operator bool(){
 
 // Find the first of available SimpleGraphics
 void HardwareSerial::begin(uint32_t baudrate){
-    char buf[8], buf2[4];
+    char buf[20], buf2[4];
     for(uint8_t i = 0; i <= 255; i++){
         fd = NULL;
         strcpy(buf, "COM");
@@ -18,7 +19,7 @@ void HardwareSerial::begin(uint32_t baudrate){
         if(!SetupComm(hCom, 0, 0)) {end(); continue;}
         DCB p = {};
         p.DCBlength = sizeof(p);
-        p.BaudRate = 115200; 
+        p.BaudRate = baudrate; // 9600
         p.ByteSize = 8;
         p.Parity = NOPARITY;
         p.StopBits = ONESTOPBIT;

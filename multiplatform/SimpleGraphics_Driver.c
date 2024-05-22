@@ -1,14 +1,5 @@
 #include "SimpleGraphics_Driver.h"
 
-const Resolution r480x272 = {480, 272, 41, 10, 4, 4};
-const Resolution r640x480 = {640, 480, 96, 2, 64, 2};
-const Resolution r800x480 = {800, 480, 128, 2, 128, 43};
-const Resolution r800x600 = {800, 600, 128, 4, 128, 24};
-const Resolution r1024x600 = {1024, 600, 136, 4, 184, 24};
-const Resolution r1024x768 = {1024, 768, 136, 6, 184, 32};
-const Resolution r1280x720 = {1280, 720, 40, 5, 330, 25};
-const Resolution r1920x1080 = {1920, 1080, 44, 5, 236, 40};
-
 struct SimpleGraphics SimpleGraphicsFunc = {
     .setLayer = SimpleGraphics_setLayer,
     .addThread = SimpleGraphics_addThread,
@@ -25,7 +16,7 @@ struct SimpleGraphics SimpleGraphicsFunc = {
 
 static uint8_t SimpleGraphics_init(void){
     char buf[20];
-    SimpleGraphics_Serial.begin(115200);
+    SimpleGraphics_Serial.begin(9600);
     if(!Serial) return SimpleGraphics_FAILURE;
     SimpleGraphics_Serial.write(1);
     SimpleGraphics_Serial.write(0);
@@ -34,8 +25,8 @@ static uint8_t SimpleGraphics_init(void){
 }
 
 static uint8_t SimpleGraphics_modeset(Resolution r){
-    SimpleGraphics_Serial.write(6);
-    SimpleGraphics_Serial.write(3);
+    SimpleGraphics_Serial.write(sizeof(Resolution) + 1);
+    SimpleGraphics_Serial.write(2);
     SimpleGraphics_Serial.write((uint8_t*)&r, sizeof(Resolution));
     return SimpleGraphics_SUCCESS;
 }

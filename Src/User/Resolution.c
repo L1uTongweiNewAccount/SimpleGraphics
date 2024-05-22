@@ -1,16 +1,6 @@
 #include "Resolution.h"
 #include "MemoryRegion.h"
 
-const Resolution r480x272 = {480, 272, 41, 10, 4, 4};
-const Resolution r640x480 = {640, 480, 96, 2, 64, 2};
-const Resolution r800x480 = {800, 480, 128, 2, 128, 43};
-const Resolution r800x600 = {800, 600, 128, 4, 128, 24};
-const Resolution r1024x600 = {1024, 600, 136, 4, 184, 24};
-const Resolution r1024x768 = {1024, 768, 136, 6, 184, 32};
-const Resolution r1280x720 = {1280, 720, 40, 5, 330, 25};
-const Resolution r1920x1080 = {1920, 1080, 44, 5, 236, 40};
-Resolution* resolutions[8] = {&r480x272, &r640x480, &r800x480, &r800x600, &r1024x600, &r1024x768, &r1280x720, &r1920x1080};
-
 void setResolution(Resolution r){ //Re-init LTDC
     LTDC_HandleTypeDef hltdc;
     hltdc.Instance = LTDC;
@@ -30,6 +20,18 @@ void setResolution(Resolution r){ //Re-init LTDC
     hltdc.Init.Backcolor.Green = 0;
     hltdc.Init.Backcolor.Red = 0;
     if (HAL_LTDC_Init(&hltdc) != HAL_OK) Error_Handler();
+    // LTDC Clock = 25Mhz x PLL3N / PLL3R
+    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
+    PeriphClkInitStruct.PLL3.PLL3M = 1;
+    PeriphClkInitStruct.PLL3.PLL3P = 2;
+    PeriphClkInitStruct.PLL3.PLL3Q = 2;
+    PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
+    PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
+    PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
+    PeriphClkInitStruct.PLL3.PLL3N = r.PLL3N;
+    PeriphClkInitStruct.PLL3.PLL3R = r.PLL3R;
+    if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK) Error_Handler();
     LTDC_LayerCfgTypeDef pLayerCfg = {0};
     pLayerCfg.WindowX0 = 0;
     pLayerCfg.WindowX1 = 0;
