@@ -54,7 +54,6 @@ void TIM3_IRQHandler(void) {
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
     if(!IsPre) HAL_UART_Receive_DMA(&huart1, USARTRecieveBuffer, instructionSize);
     else{
-        HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
         switch(USARTRecieveBuffer[0]){ // switch the type
             case 0: // Card Info
                 HAL_UART_Transmit_DMA(&huart1, "SimpleGraphics v1.0", 20);
@@ -65,7 +64,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 setResolution(*resolutions[USARTRecieveBuffer[1]]);
                 break;
             case 2:{ // switch the resolution (customed)
-                //NOTE: Expected size 13
+                //NOTE: Expected size 7
                 Resolution *r = (Resolution*)&USARTRecieveBuffer[1];
                 setResolution(*r);
                 break;
@@ -80,7 +79,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 );
                 break;
             case 4: // normal read memory
-                //NOTE: expected size > 7
+                //NOTE: expected size 7
                 HAL_DMA_Start(
                     &hdma_memtomem_dma1_stream3, 
                     *(uint32_t*)&USARTRecieveBuffer[1],
@@ -100,39 +99,38 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 );
                 break;
             case 6:{ // apply a layer
-                //NOTE: expected size 26
+                //NOTE: expected size 25
                 LTDC_LayerCfgTypeDef pLayerCfg = {};
                 pLayerCfg.WindowX0 = *(uint16_t*)&USARTRecieveBuffer[1];
                 pLayerCfg.WindowX1 = *(uint16_t*)&USARTRecieveBuffer[3];
                 pLayerCfg.WindowY0 = *(uint16_t*)&USARTRecieveBuffer[5];
                 pLayerCfg.WindowY1 = *(uint16_t*)&USARTRecieveBuffer[7];
                 pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
-                pLayerCfg.Alpha = *(uint8_t*)&USARTRecieveBuffer[20];
-                pLayerCfg.Alpha0 = *(uint8_t*)&USARTRecieveBuffer[21];
+                pLayerCfg.Alpha = *(uint8_t*)&USARTRecieveBuffer[13];
                 pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
                 pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
                 pLayerCfg.FBStartAdress = *(uint32_t*)&USARTRecieveBuffer[9];
-                pLayerCfg.ImageWidth = *(uint16_t*)&USARTRecieveBuffer[13];
-                pLayerCfg.ImageHeight = *(uint16_t*)&USARTRecieveBuffer[15];
+                pLayerCfg.ImageWidth = pLayerCfg.WindowX1 - pLayerCfg.WindowX0;
+                pLayerCfg.ImageHeight = pLayerCfg.WindowY1 - pLayerCfg.WindowY0;
                 pLayerCfg.Backcolor.Blue = *(uint8_t*)&USARTRecieveBuffer[19];
-                pLayerCfg.Backcolor.Green = *(uint8_t*)&USARTRecieveBuffer[18];
-                pLayerCfg.Backcolor.Red = *(uint8_t*)&USARTRecieveBuffer[17];
-                if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, *(uint32_t*)&USARTRecieveBuffer[22]) != HAL_OK) Error_Handler();
+                pLayerCfg.Backcolor.Green = *(uint8_t*)&USARTRecieveBuffer[17];
+                pLayerCfg.Backcolor.Red = *(uint8_t*)&USARTRecieveBuffer[15];
+                if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, *(uint32_t*)&USARTRecieveBuffer[21]) != HAL_OK) Error_Handler();
                 break;
             }
             case 7: // DMA2D Fill memory
-                //NOTE: expected size 16
+                //NOTE: expected size 15
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00030000UL | (1 << 9);
                 DMA2D->OCOLR = *(uint32_t*)&USARTRecieveBuffer[1];
                 DMA2D->OMAR = *(uint32_t*)&USARTRecieveBuffer[5];
                 DMA2D->OOR = *(uint32_t*)&USARTRecieveBuffer[9];
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[13]) << 16) | *(uint16_t*)&USARTRecieveBuffer[15];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[11]) << 16) | *(uint16_t*)&USARTRecieveBuffer[13];
                 DMA2D->CR |= DMA2D_CR_START; 
                 break;
             case 8: // DMA2D Copy memory
-                //NOTE: expected size 20
+                //NOTE: expected size 19
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00000000UL | (1 << 9);
                 DMA2D->FGMAR = *(uint32_t*)&USARTRecieveBuffer[1];
@@ -141,11 +139,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 DMA2D->OOR = *(uint32_t*)&USARTRecieveBuffer[13];
                 DMA2D->FGPFCCR = DMA2D_ARGB8888;
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[17]) << 16) | *(uint16_t*)&USARTRecieveBuffer[19];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[15]) << 16) | *(uint16_t*)&USARTRecieveBuffer[17];
                 DMA2D->CR |= DMA2D_CR_START;
                 break;
             case 9: // DMA2D Mix memory
-                //NOTE: expected size 28
+                //NOTE: expected size 27
                 while (DMA2D->CR & DMA2D_CR_START);
                 DMA2D->CR = 0x00020000UL | (1 << 9);
                 DMA2D->FGMAR = *(uint32_t*)&USARTRecieveBuffer[1];
@@ -157,7 +155,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 DMA2D->FGPFCCR = DMA2D_ARGB8888;
                 DMA2D->BGPFCCR = DMA2D_ARGB8888;
                 DMA2D->OPFCCR = DMA2D_ARGB8888;
-                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[25]) << 16) | *(uint16_t*)&USARTRecieveBuffer[27];
+                DMA2D->NLR = (uint32_t)((uint32_t)(*(uint16_t*)&USARTRecieveBuffer[23]) << 16) | *(uint16_t*)&USARTRecieveBuffer[25];
                 DMA2D->CR |= DMA2D_CR_START;
                 break;
             case 10:{ //add a thread
@@ -180,7 +178,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 break;
             }
             case 11:{ //delete a thread
-                //NOTE: expected size 4
+                //NOTE: expected size 5
                 struct LinkedSheet* target = threadsRoot;
                 if(target == NULL) break;
                 if(target->id == *(uint32_t*)&USARTRecieveBuffer[1]){
@@ -201,7 +199,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                 target->next = newNext;
                 break;
             }
-        }       
+        }
+        HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
     }
     IsPre = !IsPre;
 }
