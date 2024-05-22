@@ -1,0 +1,3 @@
+[submodule "multiplatform/arch/avr"]
+	path = multiplatform/arch/avr
+	url = https://github.com/arduino/ArduinoCore-avr.git
