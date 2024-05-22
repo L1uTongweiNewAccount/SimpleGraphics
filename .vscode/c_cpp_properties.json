@@ -12,9 +12,9 @@
             "defines": [],
             "cStandard": "c17",
             "cppStandard": "gnu++17",
-            "intelliSenseMode": "linux-gcc-x64",
+            "intelliSenseMode": "windows-gcc-x64",
             "configurationProvider": "ms-vscode.makefile-tools",
-            "compilerPath": "/usr/bin/gcc"
+            "compilerPath": "C:/TDM-GCC-64/bin/gcc.exe"
         }
     ],
     "version": 4
