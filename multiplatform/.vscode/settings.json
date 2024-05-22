@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.asm": "nasm",
+        "hardwareserial.h": "c"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "cmake.configureOnOpen": true,
+    "files.associations": {
+        "dma.h": "c",
+        "usart.h": "c",
+        "picotk.h": "c",
+        "glx_impl.h": "c",
+        "assert.h": "c",
+        "tx_api.h": "c",
+        "main.h": "c",
+        "thread": "c",
+        "stm32h7xx_hal_tim.h": "c",
+        "pm_domain.h": "c",
+        "minmax.h": "c",
+        "drm_encoder_slave.h": "c",
+        "module.h": "c",
+        "drm_print.h": "c",
+        "typeinfo": "c",
+        "stdint.h": "c",
+        "unistd.h": "c"
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/l1utongwei/SimpleGraphics/build/target",
+            "binaryPath": "/home/l1utongwei/SimpleGraphics/build/target/SimpleGraphics.elf",
+            "binaryArgs": []
+        }
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc",
+    "C_Cpp.errorSquiggles": "enabled"
+}
