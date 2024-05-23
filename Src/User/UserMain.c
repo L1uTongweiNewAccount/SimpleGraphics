@@ -22,7 +22,7 @@ uint8_t IsPre = 1;
 
 void setup(){
     // Erase NAND Flash
-    __builtin_memset(ExternalNAND, 0, ExternalNANDLength * 4);
+    // __builtin_memset(ExternalNAND, 0, ExternalNANDLength * 4);
     // Recieve Pack that 2 bytes large & n bytes large
     HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
     // Init Timer3
