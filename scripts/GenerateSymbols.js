@@ -1,5 +1,4 @@
-const { assert } = require('console');
-const fs = require('fs');
+const fs = require('node:fs');
 
 var Symbols = fs.openSync("build/include/symbols.h", 'w');
 var ctags_file = fs.readFileSync("build/target/SimpleGraphics.symbols.jsonl").toString().split("\n");
@@ -102,7 +101,7 @@ for(var i = 0; i < ctags.length; i++){
             var pattern = new RegExp(tab.typeref.substring(9).replace(/\*/g, "\\*") + "(\\s*)" + 
                 tab.name + "(\\s*)(.+?\\))", "gm");
             var final = pattern.exec(source.toString().replace(/(\n|\r|\t)/g, ""));
-            assert(final.length > 2);
+            //assert(final.length > 2);
             return final[2];
         })(ctags[i]) + ")(void*)" + address + ")\n");
     }
@@ -123,7 +122,6 @@ for(var i = 0; i < ctags.length; i++){
         fs.writeSync(Symbols, "((" + ctags[i].typeref.substring(9) + "*)(void*)" + address + ")\n");
     }
 }const { assert } = require('console');
-const fs = require('fs');
 
 var Symbols = fs.openSync("build/include/symbols.h", 'w');
 var ctags_file = fs.readFileSync("build/target/SimpleGraphics.symbols.jsonl").toString().split("\n");

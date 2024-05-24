@@ -231,7 +231,7 @@ $(BUILD_DIR)/target/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(CP) -O ihex -S $@ $(BUILD_DIR)/target/$(TARGET).hex
 	-@rm $(BUILD_DIR)/include/symbols.h
-	ctags --output-format=json --languages=c --c-kinds=+pxs --fields-c=+{macrodef} -R . \
+	ctags --output-format=json --languages=c --c-kinds=+pxs --fields-c=+{macrodef} -R PicoGL \
 		> $(BUILD_DIR)/target/$(TARGET).symbols.jsonl
 	node scripts/GenerateSymbols.js
 	$(SZ) $@
