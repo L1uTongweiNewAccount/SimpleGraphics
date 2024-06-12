@@ -32,7 +32,6 @@ struct SimpleGraphics{
     uint8_t(*write)(void*, uint32_t, uint16_t);
     uint8_t(*read)(void*, uint32_t, uint16_t);
     uint8_t (*copy)(uint32_t, uint32_t, uint16_t);
-    uint8_t (*setLayer)(uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint8_t);
     uint8_t (*fillVideo)(uint32_t, uint32_t, uint16_t, uint16_t, uint32_t);
     uint8_t (*copyVideo)(uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint32_t);
     uint8_t (*mixVideo)(uint32_t, uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint32_t, uint32_t);
@@ -46,7 +45,6 @@ static uint8_t SimpleGraphics_modeset(Resolution);
 static uint8_t SimpleGraphics_write(void*, uint32_t, uint16_t);
 static uint8_t SimpleGraphics_read(void*, uint32_t, uint16_t);
 static uint8_t SimpleGraphics_copy(uint32_t, uint32_t, uint16_t);
-static uint8_t SimpleGraphics_setLayer(uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint16_t, uint8_t, uint8_t, uint8_t, uint8_t);
 static uint8_t SimpleGraphics_fillVideo(uint32_t, uint32_t, uint16_t, uint16_t, uint32_t);
 static uint8_t SimpleGraphics_copyVideo(uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint32_t);
 static uint8_t SimpleGraphics_mixVideo(uint32_t, uint32_t, uint32_t, uint16_t, uint16_t, uint16_t, uint32_t, uint32_t);

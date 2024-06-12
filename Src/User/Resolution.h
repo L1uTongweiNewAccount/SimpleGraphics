@@ -21,4 +21,5 @@ const __attribute__((weak)) Resolution r1280x800_60 = {1280, 800, 135, 2, 263, 2
 const __attribute__((weak)) Resolution r1280x960_60 = {1280, 960, 111, 2, 407, 36, 108, 25};
 const __attribute__((weak)) Resolution r1280x1024_60 = {1280, 1024, 111, 2, 295, 38, 108, 25};
 const __attribute__((weak)) Resolution r1440x900_60 = {1440, 900, 151, 2, 311, 28, 213, 50};
+const __attribute__((weak)) Resolution r1920x1080_30 = {1920, 1080, 44, 5, 280, 45, 148, 50};
 const __attribute__((weak)) Resolution r1920x1080_60 = {1920, 1080, 11, 3, 67, 20, 26, 5};

@@ -34,9 +34,9 @@ void setResolution(Resolution r){ //Re-init LTDC
     if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK) Error_Handler();
     LTDC_LayerCfgTypeDef pLayerCfg = {0};
     pLayerCfg.WindowX0 = 0;
-    pLayerCfg.WindowX1 = 0;
+    pLayerCfg.WindowX1 = r.width - 1;
     pLayerCfg.WindowY0 = 0;
-    pLayerCfg.WindowY1 = 0;
+    pLayerCfg.WindowY1 = r.height - 1;
     pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
     pLayerCfg.Alpha = 0;
     pLayerCfg.Alpha0 = 0;

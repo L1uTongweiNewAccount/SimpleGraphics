@@ -58,22 +58,6 @@ static uint8_t SimpleGraphics_copy(uint32_t dstAddr, uint32_t srcAddr, uint16_t 
     return SimpleGraphics_SUCCESS;
 }
 
-static uint8_t SimpleGraphics_setLayer(uint32_t id, uint32_t addr, uint16_t X0, uint16_t X1, uint16_t Y0, uint16_t Y1, uint8_t BackR, uint8_t BackG, uint8_t BackB, uint8_t Alpha){
-    SimpleGraphics_Serial.write(25);
-    SimpleGraphics_Serial.write(6);
-    SimpleGraphics_Serial.write(X0);
-    SimpleGraphics_Serial.write(X1);
-    SimpleGraphics_Serial.write(Y0);
-    SimpleGraphics_Serial.write(Y1);
-    SimpleGraphics_Serial.write(addr);
-    SimpleGraphics_Serial.write(Alpha);
-    SimpleGraphics_Serial.write(BackR);
-    SimpleGraphics_Serial.write(BackG);
-    SimpleGraphics_Serial.write(BackB);
-    SimpleGraphics_Serial.write(id);
-    return SimpleGraphics_SUCCESS;
-}
-
 static uint8_t SimpleGraphics_fillVideo(uint32_t addr, uint32_t color, uint16_t x, uint16_t y, uint16_t screen_x){
     SimpleGraphics_Serial.write(15);
     SimpleGraphics_Serial.write(7);

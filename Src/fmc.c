@@ -44,41 +44,6 @@ void MX_FMC_Init(void)
 
   /* USER CODE END FMC_Init 1 */
 
-  /** Perform the NAND1 memory initialization sequence
-  */
-  hnand1.Instance = FMC_NAND_DEVICE;
-  /* hnand1.Init */
-  hnand1.Init.NandBank = FMC_NAND_BANK3;
-  hnand1.Init.Waitfeature = FMC_NAND_WAIT_FEATURE_ENABLE;
-  hnand1.Init.MemoryDataWidth = FMC_NAND_MEM_BUS_WIDTH_8;
-  hnand1.Init.EccComputation = FMC_NAND_ECC_DISABLE;
-  hnand1.Init.ECCPageSize = FMC_NAND_ECC_PAGE_SIZE_256BYTE;
-  hnand1.Init.TCLRSetupTime = 0;
-  hnand1.Init.TARSetupTime = 0;
-  /* hnand1.Config */
-  hnand1.Config.PageSize = 0;
-  hnand1.Config.SpareAreaSize = 0;
-  hnand1.Config.BlockSize = 0;
-  hnand1.Config.BlockNbr = 0;
-  hnand1.Config.PlaneNbr = 0;
-  hnand1.Config.PlaneSize = 0;
-  hnand1.Config.ExtraCommandEnable = DISABLE;
-  /* ComSpaceTiming */
-  ComSpaceTiming.SetupTime = 25;
-  ComSpaceTiming.WaitSetupTime = 25;
-  ComSpaceTiming.HoldSetupTime = 25;
-  ComSpaceTiming.HiZSetupTime = 25;
-  /* AttSpaceTiming */
-  AttSpaceTiming.SetupTime = 25;
-  AttSpaceTiming.WaitSetupTime = 25;
-  AttSpaceTiming.HoldSetupTime = 25;
-  AttSpaceTiming.HiZSetupTime = 25;
-
-  if (HAL_NAND_Init(&hnand1, &ComSpaceTiming, &AttSpaceTiming) != HAL_OK)
-  {
-    Error_Handler( );
-  }
-
   /** Perform the SDRAM1 memory initialization sequence
   */
   hsdram1.Instance = FMC_SDRAM_DEVICE;
@@ -90,7 +55,7 @@ void MX_FMC_Init(void)
   hsdram1.Init.InternalBankNumber = FMC_SDRAM_INTERN_BANKS_NUM_4;
   hsdram1.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_3;
   hsdram1.Init.WriteProtection = FMC_SDRAM_WRITE_PROTECTION_DISABLE;
-  hsdram1.Init.SDClockPeriod = FMC_SDRAM_CLOCK_PERIOD_3;
+  hsdram1.Init.SDClockPeriod = FMC_SDRAM_CLOCK_PERIOD_2;
   hsdram1.Init.ReadBurst = FMC_SDRAM_RBURST_DISABLE;
   hsdram1.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;
   /* SdramTiming */
@@ -106,35 +71,6 @@ void MX_FMC_Init(void)
   {
     Error_Handler( );
   }
-
-  /** Perform the SDRAM2 memory initialization sequence
-  */
-  hsdram2.Instance = FMC_SDRAM_DEVICE;
-  /* hsdram2.Init */
-  hsdram2.Init.SDBank = FMC_SDRAM_BANK2;
-  hsdram2.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_8;
-  hsdram2.Init.RowBitsNumber = FMC_SDRAM_ROW_BITS_NUM_12;
-  hsdram2.Init.MemoryDataWidth = FMC_SDRAM_MEM_BUS_WIDTH_16;
-  hsdram2.Init.InternalBankNumber = FMC_SDRAM_INTERN_BANKS_NUM_4;
-  hsdram2.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_3;
-  hsdram2.Init.WriteProtection = FMC_SDRAM_WRITE_PROTECTION_DISABLE;
-  hsdram1.Init.SDClockPeriod = FMC_SDRAM_CLOCK_PERIOD_3;
-  hsdram2.Init.ReadBurst = FMC_SDRAM_RBURST_DISABLE;
-  hsdram2.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;
-  /* SdramTiming */
-  SdramTiming.LoadToActiveDelay = 2;
-  SdramTiming.ExitSelfRefreshDelay = 7;
-  SdramTiming.SelfRefreshTime = 4;
-  SdramTiming.RowCycleDelay = 7;
-  SdramTiming.WriteRecoveryTime = 2;
-  SdramTiming.RPDelay = 2;
-  SdramTiming.RCDDelay = 2;
-
-  if (HAL_SDRAM_Init(&hsdram2, &SdramTiming) != HAL_OK)
-  {
-    Error_Handler( );
-  }
-
   /* USER CODE BEGIN FMC_Init 2 */
 
   /* USER CODE END FMC_Init 2 */

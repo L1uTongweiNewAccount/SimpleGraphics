@@ -21,8 +21,6 @@ uint16_t instructionSize = 0;
 uint8_t IsPre = 1;
 
 void setup(){
-    // Erase NAND Flash
-    // __builtin_memset(ExternalNAND, 0, ExternalNANDLength * 4);
     // Recieve Pack that 2 bytes large & n bytes large
     HAL_UART_Receive_DMA(&huart1, (uint8_t*)&instructionSize, 2);
     // Init Timer3
@@ -98,26 +96,26 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
                     *(uint16_t*)&USARTRecieveBuffer[9]
                 );
                 break;
-            case 6:{ // apply a layer
-                //NOTE: expected size 25
-                LTDC_LayerCfgTypeDef pLayerCfg = {};
-                pLayerCfg.WindowX0 = *(uint16_t*)&USARTRecieveBuffer[1];
-                pLayerCfg.WindowX1 = *(uint16_t*)&USARTRecieveBuffer[3];
-                pLayerCfg.WindowY0 = *(uint16_t*)&USARTRecieveBuffer[5];
-                pLayerCfg.WindowY1 = *(uint16_t*)&USARTRecieveBuffer[7];
-                pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
-                pLayerCfg.Alpha = *(uint8_t*)&USARTRecieveBuffer[13];
-                pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
-                pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
-                pLayerCfg.FBStartAdress = *(uint32_t*)&USARTRecieveBuffer[9];
-                pLayerCfg.ImageWidth = pLayerCfg.WindowX1 - pLayerCfg.WindowX0;
-                pLayerCfg.ImageHeight = pLayerCfg.WindowY1 - pLayerCfg.WindowY0;
-                pLayerCfg.Backcolor.Blue = *(uint8_t*)&USARTRecieveBuffer[19];
-                pLayerCfg.Backcolor.Green = *(uint8_t*)&USARTRecieveBuffer[17];
-                pLayerCfg.Backcolor.Red = *(uint8_t*)&USARTRecieveBuffer[15];
-                if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, *(uint32_t*)&USARTRecieveBuffer[21]) != HAL_OK) Error_Handler();
-                break;
-            }
+            // case 6:{ // apply a layer
+            //     //NOTE: expected size 25
+            //     LTDC_LayerCfgTypeDef pLayerCfg = {};
+            //     pLayerCfg.WindowX0 = *(uint16_t*)&USARTRecieveBuffer[1];
+            //     pLayerCfg.WindowX1 = *(uint16_t*)&USARTRecieveBuffer[3];
+            //     pLayerCfg.WindowY0 = *(uint16_t*)&USARTRecieveBuffer[5];
+            //     pLayerCfg.WindowY1 = *(uint16_t*)&USARTRecieveBuffer[7];
+            //     pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+            //     pLayerCfg.Alpha = *(uint8_t*)&USARTRecieveBuffer[13];
+            //     pLayerCfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+            //     pLayerCfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_CA;
+            //     pLayerCfg.FBStartAdress = *(uint32_t*)&USARTRecieveBuffer[9];
+            //     pLayerCfg.ImageWidth = pLayerCfg.WindowX1 - pLayerCfg.WindowX0;
+            //     pLayerCfg.ImageHeight = pLayerCfg.WindowY1 - pLayerCfg.WindowY0;
+            //     pLayerCfg.Backcolor.Blue = *(uint8_t*)&USARTRecieveBuffer[19];
+            //     pLayerCfg.Backcolor.Green = *(uint8_t*)&USARTRecieveBuffer[17];
+            //     pLayerCfg.Backcolor.Red = *(uint8_t*)&USARTRecieveBuffer[15];
+            //     if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, *(uint32_t*)&USARTRecieveBuffer[21]) != HAL_OK) Error_Handler();
+            //     break;
+            // }
             case 7: // DMA2D Fill memory
                 //NOTE: expected size 15
                 while (DMA2D->CR & DMA2D_CR_START);
